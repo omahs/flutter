@@ -65,7 +65,7 @@ Android 10, API level 29 provides necessary support to work with [`HardwareBuffe
 
 ### Vulkan Extensions
 
-Besides the Vulkan and Android versions. On Android, Impeller needs some extensions for interoperability with the underlying platform to support features like platform views and external texture composition. The expectation is that very Android devices will be filtered out in this check because support for extensions like `VK_ANDROID_external_memory_android_hardware_buffer` [is almost universal on devices with Android 10](https://vulkan.gpuinfo.org/listextensions.php?platform=android) and above.
+Besides the Vulkan and Android versions. On Android, Impeller needs some extensions for interoperability with the underlying platform to support features like platform views and external texture composition. The expectation is that very few Android devices will be filtered out in this check because support for extensions like `VK_ANDROID_external_memory_android_hardware_buffer` [is almost universal on devices with Android 10](https://vulkan.gpuinfo.org/listextensions.php?platform=android) and above.
 
 ## Platform Views
 
