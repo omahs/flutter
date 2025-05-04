@@ -21,7 +21,7 @@ Because of the complexities of having native code, plugins have many more types 
   - macOS: **XCTest** - These should live in `example/macos/RunnerTests/`, or `darwin/RunnerTests/` for a plugin with shared iOS source (These are in the example directory for single-platform projects because they are run via the example app's project)
   - Linux: **Google Test** - These should live in `linux/test/`, and be named `*_test.cc`.
   - Windows: **Google Test** - These should live in `windows/test/`, and be named `*_test.cpp`.
-- **Native UI tests**. Some plugins show native UI that the test must interact with (e.g., `image_picker`). For these normal integration tests won't work, as there is not way to drive the native UI from Dart. They are written as:
+- **Native UI tests**. Some plugins show native UI that the test must interact with (e.g., `image_picker`). For these normal integration tests won't work, as there is no way to drive the native UI from Dart. They are written as:
   - Android: **Espresso**, via the [`espresso` plugin](https://pub.dev/packages/espresso) - These should live in `example/android/app/src/androidTest/`
   - iOS: **XCUITest** - These should live in `example/ios/RunnerUITests/`, or `darwin/RunnerUITests/` for a plugin with shared macOS source
   - macOS: **XCUITest** - These should live in `example/macos/RunnerUITests/`, or `darwin/RunnerUITests/` for a plugin with shared iOS source
