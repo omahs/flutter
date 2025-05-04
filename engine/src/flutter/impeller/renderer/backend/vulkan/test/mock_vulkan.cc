@@ -63,13 +63,13 @@ class MockDevice final {
   MockCommandPool* NewCommandPool() {
     auto pool = std::make_unique<MockCommandPool>();
     MockCommandPool* result = pool.get();
-    Lock lock(commmand_pools_mutex_);
+    Lock lock(command_pools_mutex_);
     command_pools_.emplace_back(std::move(pool));
     return result;
   }
 
   void DeleteCommandPool(MockCommandPool* pool) {
-    Lock lock(commmand_pools_mutex_);
+    Lock lock(command_pools_mutex_);
     auto it = std::find_if(command_pools_.begin(), command_pools_.end(),
                            [pool](const std::unique_ptr<MockCommandPool>& p) {
                              return p.get() == pool;
@@ -101,9 +101,9 @@ class MockDevice final {
   std::vector<std::unique_ptr<MockCommandBuffer>> command_buffers_
       IPLR_GUARDED_BY(command_buffers_mutex_);
 
-  Mutex commmand_pools_mutex_;
+  Mutex command_pools_mutex_;
   std::vector<std::unique_ptr<MockCommandPool>> command_pools_ IPLR_GUARDED_BY(
-      commmand_pools_mutex_);
+      command_pools_mutex_);
 };
 
 void noop() {}
