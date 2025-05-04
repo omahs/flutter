@@ -140,9 +140,9 @@ block the Flutter rendering pipeline, platforms do impose restrictions on
 expensive operations on this thread. So it is advised that any expensive work in
 response to platform messages be performed on separate worker threads (unrelated
 to the four threads discussed above) before having the responses queued back on
-the the platform thread for submission to the engine. Not doing so may result in
+the platform thread for submission to the engine. Not doing so may result in
 platform-specific watchdogs terminating the application. Embeddings such as
-Android and iOS also uses the platform thread to pipe through user input events.
+Android and iOS also use the platform thread to pipe through user input events.
 A blocked platform thread can also cause gestures to be dropped.
 
 ### UI Task Runner
