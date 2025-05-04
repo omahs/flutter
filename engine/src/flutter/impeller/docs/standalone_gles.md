@@ -56,7 +56,7 @@ context->MakeCurrent(*surface);
 
 ## Creating the OpenGL ES Context
 
-Impeller doesn't statically link against OpenGL ES. You need to give it a callback the returns the appropriate OpenGL ES function for given name. With EGL, this can be something as simple as:
+Impeller doesn't statically link against OpenGL ES. You need to give it a callback that returns the appropriate OpenGL ES function for given name. With EGL, this can be something as simple as:
 
 ```c++
 auto resolver = [](const char* name) -> void* {
@@ -76,7 +76,7 @@ Once the proc table is created, the resolver will no longer be invoked.
 
 Then you need to provide the context a shader library that contains a manifest of all the shaders the context will need at runtime. Remember, Impeller doesn't generate shaders at runtime. Instead `impellerc` generates blobs that can either be delivered out of band or be embedded directly in the binary. When embedding the blobs directly in the binary, look for the symbols referring to the shader blob somewhere in the generated build artifacts. A vector of mappings to these blobs needs to be provided to create context creation factory.
 
-An example of creating an embedded mapping is provided below. Adjust as necessary depending on how to plan on delivering shader blobs to Impeller at during setup.
+An example of creating an embedded mapping is provided below. Adjust as necessary depending on how to plan on delivering shader blobs to Impeller during setup.
 ```c++
 
 #include "impeller/fixtures/gles/fixtures_shaders_gles.h" // <---- Depends on your application.
