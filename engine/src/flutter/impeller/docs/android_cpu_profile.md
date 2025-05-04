@@ -45,7 +45,7 @@ flutter --local-engine android_profile_arm64 --local-engine-host host_profile_ar
 Open Android Studio. You can create a new blank project if you don't have one already. You do not need to open the application project nor do you need to run the app via Android Studio.
 
 > [!TIP]
-> Unless you are already a frequest user of Android Studio, it is recommended that you start with a blank project instead of opening the current project in Android Studio. The location of the various UI elements referenced below may change depending on Android Studio versions or project settings.
+> Unless you are already a frequent user of Android Studio, it is recommended that you start with a blank project instead of opening the current project in Android Studio. The location of the various UI elements referenced below may change depending on Android Studio versions or project settings.
 
 ### Open the Profiler
 
