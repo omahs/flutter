@@ -13,7 +13,7 @@ Before we do any rendering, we need to create a pipeline. A pipeline describes t
 > [!TIP]
 > When you decide what to render, it is usually a good idea to start writing the shaders first. It will give you an overview of the inputs you are going to provide to the shaders. The shader compiler will then generate the necessary interfaces. You then just wire it up in code with the niceties of code completion and such. Impeller wants you to work this way and the compiler will help you.
 
-Shaders define the programmable stages of a pipeline. We are going to be define a vertex and fragment shader for our triangle.
+Shaders define the programmable stages of a pipeline. We are going to define a vertex and fragment shader for our triangle.
 
 The job of a vertex shader is to transform the vertices of our triangle into [normalized device coordinates](coordinate_system.md) (NDC). The rasterizer will then take these coordinates and convert them to 2D coordinates in the framebuffer.
 
@@ -31,7 +31,7 @@ void main() {
 }
 ```
 
-This shader, which expects to run once per vertex, takes a `vec2` and converts into into NDC. Are you can see, there is no "conversion" going on. That's because our vertices will already be in NDC. Since we are only drawing a simple triangle, we will need to give it three vertices. We'll discuss that in later setup.
+This shader, which expects to run once per vertex, takes a `vec2` and converts it into NDC. As you can see, there is no "conversion" going on. That's because our vertices will already be in NDC. Since we are only drawing a simple triangle, we will need to give it three vertices. We'll discuss that in later setup.
 
 #### Fragment Shader
 
@@ -50,7 +50,7 @@ This shader, which expects to run once per texture element (texel) covered by th
 
 ### The Pipeline Descriptor
 
-Invoking the shader compiler will generate the backend specific shaders (GLSL ES for OpenGL ES, Metal Shading Language code for Metal, and SPIRV for Vulkan). Along with these artifacts, the compiler will generate a couple of C++ header files that contain the interfaces and metadata you will need to create a pipeline with these shaders at runtime. Find those somewhere in the generated artifacts. These will be called `baby.vert.h` and `baby.frag.h` for each of our two shaders. Include then in your translation unit. We need these for the pipeline descriptor.
+Invoking the shader compiler will generate the backend specific shaders (GLSL ES for OpenGL ES, Metal Shading Language code for Metal, and SPIRV for Vulkan). Along with these artifacts, the compiler will generate a couple of C++ header files that contain the interfaces and metadata you will need to create a pipeline with these shaders at runtime. Find those somewhere in the generated artifacts. These will be called `baby.vert.h` and `baby.frag.h` for each of our two shaders. Include them in your translation unit. We need these for the pipeline descriptor.
 
 But first, let's take a peek inside `baby.vert.h` to look at what the compiler gave us. There should be a whole bunch of metadata you don't really need to care about. But there is one struct called `PerVertexData` that looks interesting:
 
@@ -62,7 +62,7 @@ struct PerVertexData {
 
 The compiler has detected that the shader expects one point position per vertex. It is going to be our job to fill this in during rendering.
 
-This struct is handy because as you tinker on your shader, the compiler will add, remove, and reorder the fields. If there are alignment considerations for the GPU, the compiler knows about these and it will add the appropriate padding between these fields so you all you have to worry about is filling in the position. You don't have to use this struct directly, but trusting the compiler will greatly simplify your experience.
+This struct is handy because as you tinker on your shader, the compiler will add, remove, and reorder the fields. If there are alignment considerations for the GPU, the compiler knows about these and it will add the appropriate padding between these fields so all you have to worry about is filling in the position. You don't have to use this struct directly, but trusting the compiler will greatly simplify your experience.
 
 All these interfaces and metadata are in a struct called `BabyVertexShader`. Find a similar struct called `BabyFragmentShader` in `baby.frag.h`. [Tinker around with the shader in the compiler explorer](https://tinyurl.com/28fypq2b) to see what the compiler generates.
 
@@ -156,7 +156,7 @@ In the fragment shader `baby.frag`, declare an input for the color from previous
 in vec4 v_color;
 ```
 
-And in the body, set the color of the fragment to the this input.
+And in the body, set the color of the fragment to this input.
 
 ```glsl
 frag_color = v_color;
@@ -164,7 +164,7 @@ frag_color = v_color;
 
 We didn't do anything to perform the color mixing. That's because the rasterizer interpolates the values between stages. Since the varies depending on the pixel, we call these "varyings" and use the `v_` prefix for such variables.
 
-We are done with the shaders. But the compiler now warns that the vertex buffer builder can no longer build our vertex buffer! And its right because each vertex now needs to be supplied a color as well. Patch this in.
+We are done with the shaders. But the compiler now warns that the vertex buffer builder can no longer build our vertex buffer! And it's right because each vertex now needs to be supplied a color as well. Patch this in.
 
 ```c++
 vertex_buffer_builder.AddVertices({
@@ -251,7 +251,7 @@ auto host_buffer = HostBuffer::Create(context->GetResourceAllocator());
 FS::BindFragInfo(pass, host_buffer->EmplaceUniform(frag_info));
 ```
 
-But wait, where did `BindFragInfo` come frame. Well, it was generated by the compiler because the compiler know how to bind the buffer to that specific stage based on the metadata it generated. If you change the shader, you will get compiler error till you fixup all call sites, making refactoring shaders easier.
+But wait, where did `BindFragInfo` come frame. Well, it was generated by the compiler because the compiler knows how to bind the buffer to that specific stage based on the metadata it generated. If you change the shader, you will get compiler error till you fixup all call sites, making refactoring shaders easier.
 
 Next, lets patch our fragment shader to mix between the two values after taking into the current time into account.
 
@@ -272,5 +272,5 @@ And with that, you should see animated triangle shading.
 
 ## Conclusion
 
-You have learned how to draw a triangle, modify its vertices, access varying information in the fragment shader, and specify uniform data to your shaders. You'll find that its somewhat annoying that you can't color outside the confines of your triangle. So add more, the rest is Flutter doesn't do anything more (conceptually) complicated.
+You have learned how to draw a triangle, modify its vertices, access varying information in the fragment shader, and specify uniform data to your shaders. You'll find that it's somewhat annoying that you can't color outside the confines of your triangle. So add more, the rest is Flutter doesn't do anything more (conceptually) complicated.
 
